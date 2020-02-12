@@ -1,6 +1,6 @@
 ---
-title: "clumping hypothesis"
-author: "Beau Meche"
+title: "Clumping Hypothesis"
+author: "Beau Meche & Robert McKenzie"
 date: "2/12/2020"
 output: html_document
 ---
@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-```{r}
+```{r, message=FALSE}
 num_men <- rep(0,14)
 num_women <- rep(1,16)
 class_1 <- seq(1, 7)
@@ -36,8 +36,22 @@ compositions[q] <- data.frame(gender = sample(x, 30),
 compositions <- data.frame(t(as.data.frame(compositions))*8, seq_along(t(as.data.frame(compositions))))
 
 # plot here
-mn <- mean(compositions)
-ggplot()
+mn <- mean(compositions$t.as.data.frame.compositions.....8)
+
+
+compositions %>% 
+  ggplot(aes(x = t.as.data.frame.compositions.....8)) +
+  geom_histogram(color = "black", fill = "navy") +
+  geom_vline(xintercept = mn, linetype = 2) +
+  labs(title = "Testing Seat Randomization in Gov.1006",
+       subtitle = "Dotted Line Shows Average Clumping Per Class",
+       x = "Number of Clumped Tables",
+       y = "Aggregated Test Results",
+       caption = "Manual Bootstrapped Test of Clumping Frequency") +
+  scale_x_continuous(breaks = seq(0,6, by = 1))
 
 ```
-We would expect a class of 14 men and 16 women to clump into about `r mn` single gender tables per class meeting, given 4 seats per table (except the last table, which has 2 seats.
+
+We would expect a class of 14 men and 16 women to clump into about `r mn` single gender tables per class meeting, given 4 seats per table with the exception of the last table, which has 2 seats.
+
+
