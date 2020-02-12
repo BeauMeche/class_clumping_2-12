@@ -12,6 +12,9 @@ library(tidyverse)
 ```
 
 ```{r, message=FALSE}
+# ignored messages because geom_histogram was complaining about 
+# the nature of our discrete data
+
 num_men <- rep(0,14)
 num_women <- rep(1,16)
 class_1 <- seq(1, 7)
