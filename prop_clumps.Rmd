@@ -12,40 +12,32 @@ library(tidyverse)
 ```
 
 ```{r}
-num_men <- rep(0,16)
+num_men <- rep(0,14)
 num_women <- rep(1,16)
-class <- seq(1, 8)
-
+class_1 <- seq(1, 7)
+class_2 <- seq(7,8)
 
 x = c(num_men,num_women)
 
-reps = 1000
+reps = 10000
 
 compositions <- vector("numeric", reps)
 
 for (q in 1:reps) {
  
-compositions[q] <- data.frame(gender = sample(x, 32),
-                     table = rep(class, 4)) %>% 
+compositions[q] <- data.frame(gender = sample(x, 30),
+                     table = c(rep(class_1, 4), 8,8)) %>% 
   group_by(table) %>% 
   summarize(num_women = sum(gender)) %>% 
-  mutate(clumps = ifelse(num_women%in% c(0,4), yes = 1, no = 0)) %>% 
+  mutate(clumps = ifelse(num_women %in% c(0,4), yes = 1, no = 0)) %>% 
   summarise(prop_clumps = mean(clumps))
-  
 }
 
 compositions <- t(as.data.frame(compositions))*8
+
 # plot here
-
-
-tables <- data.frame(gender = sample(x, 32),
-                     table = rep(class, 4)) %>% 
-  group_by(table) %>% 
-  summarize(num_women = sum(gender)) %>% 
-  mutate(clumps = ifelse(num_women%in% c(0,4), yes = 1, no = 0)) %>% 
-  summarise(prop_clumps = mean(clumps))
-
+mn <- mean(compositions)
 hist(compositions)
 
 ```
-
+We would expect a class of 14 men and 16 women to clump into about `r mn` single gender tables per class meeting, given 4 seats per table (except the last table, which has 2 seats.
