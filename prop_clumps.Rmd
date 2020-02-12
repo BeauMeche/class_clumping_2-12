@@ -1,0 +1,50 @@
+---
+title: "clumping hypothesis"
+author: "Beau Meche"
+date: "2/12/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+```
+
+```{r}
+num_men <- rep(0,16)
+num_women <- rep(1,16)
+class <- seq(1, 8)
+
+
+x = c(num_men,num_women)
+
+reps = 1000
+
+compositions <- vector("numeric", reps)
+
+for (q in 1:reps) {
+ 
+compositions[q] <- data.frame(gender = sample(x, 32),
+                     table = rep(class, 4)) %>% 
+  group_by(table) %>% 
+  summarize(num_women = sum(gender)) %>% 
+  mutate(clumps = ifelse(num_women%in% c(0,4), yes = 1, no = 0)) %>% 
+  summarise(prop_clumps = mean(clumps))
+  
+}
+
+# plot here
+
+
+tables <- data.frame(gender = sample(x, 32),
+                     table = rep(class, 4)) %>% 
+  group_by(table) %>% 
+  summarize(num_women = sum(gender)) %>% 
+  mutate(clumps = ifelse(num_women%in% c(0,4), yes = 1, no = 0)) %>% 
+  summarise(prop_clumps = mean(clumps))
+
+
+tables
+```
+
