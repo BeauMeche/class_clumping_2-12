@@ -33,11 +33,11 @@ compositions[q] <- data.frame(gender = sample(x, 30),
   summarise(prop_clumps = mean(clumps))
 }
 
-compositions <- t(as.data.frame(compositions))*8
+compositions <- data.frame(t(as.data.frame(compositions))*8, seq_along(t(as.data.frame(compositions))))
 
 # plot here
 mn <- mean(compositions)
-hist(compositions)
+ggplot()
 
 ```
 We would expect a class of 14 men and 16 women to clump into about `r mn` single gender tables per class meeting, given 4 seats per table (except the last table, which has 2 seats.
